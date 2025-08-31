@@ -1,0 +1,38 @@
+apiVersion: janus.apache.org/v1alpha1
+kind: GatewayProxy
+metadata:
+  name: janus-proxy-config
+  namespace: default
+spec:
+  # TODO janus API
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: janus
+spec:
+  controller: "janus.apache.org/janus-ingress-controller"
+  parameters:
+    apiGroup: "janus.apache.org"
+    kind: "GatewayProxy"
+    name: "janus-proxy-config"
+    namespace: "default"
+    scope: "Namespace"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: janus-ingress
+spec:
+  ingressClassName: janus
+  rules:
+    - host: httpbin.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: httpbin
+                port:
+                  number: 80

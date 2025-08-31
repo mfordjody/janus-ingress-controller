@@ -1,0 +1,13 @@
+log_level: "info"
+controller_name: janus.io/janus-ingress-controller
+leader_election_id: "janus-ingress-controller-leader"
+leader_election:
+  lease_duration: 30s
+  renew_deadline: 20s
+  retry_period: 2s
+  disable: false
+metrics_addr: ":8080"
+enable_http2: false
+probe_addr: ":8081"
+secure_metrics: false
+
